@@ -11,7 +11,9 @@ const morseDict = {
     "1": "なかかかか", "2": "ななかかか", "3": "なななかか", "4": "ななななか", "5": "ななななな"
 };
 
-const reverseMorseDict = Object.fromEntries(Object.entries(morseDict).map(([k, v]) => [v, k]));
+const reverseMorseDict = Object.fromEntries(
+    Object.entries(morseDict).map(([key, value]) => [value, key])
+);
 
 function convertToMorse() {
     const input = document.getElementById("inputText").value.trim();
