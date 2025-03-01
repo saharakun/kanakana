@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>かなかな語変換</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>かなかな語変換ツール</h1>
+
+    <label for="inputText">ひらがな or 数字を入力:</label>
+    <input type="text" id="inputText" placeholder="例: こんにちは">
+
+    <button onclick="convertToMorse()">かなかな語に変換</button>
+    <button onclick="convertToText()">ひらがな・数字に変換</button>
+
+    <h2>結果:</h2>
+    <p id="output"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
