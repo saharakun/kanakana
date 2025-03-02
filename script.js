@@ -8,22 +8,18 @@ const morseDict = {
     "ま": "かななか", "み": "ななかなか", "む": "か", "め": "かなななか", "も": "かななかな",
     "や": "ななかか", "ゆ": "かかなな", "よ": "かかかかなな", "ら": "ななな", "り": "かかなか",
     "る": "かなかかな", "れ": "なななか", "ろ": "かかか", "ん": "かなかな",
-    "ゃ" : "ななかか_","ゅ" : "かかなな","ょ" : "かかかかなな","っ" : "なななかな",
+    "ゃ": "ななかか_", "ゅ": "かかなな_", "ょ": "かかかかなな_", "っ": "なななかな_",
+    "゛": "-", "゜": "+",
     "1": "なかかかか", "2": "ななかかか", "3": "かななかか", "4": "ななななか", "5": "ななななな",
     "6": "かなかなかなかな", "7": "かなかなかなかか", "8": "かなかなかかかな", "9": "かなかなななかな",
-    "0": "ななかなかなかな","が": "なかななか-", "ぎ": "かなかなな-", "ぐ": "なななかか-", "げ": "かなかか-", "ご": "かかかか-",
-    "ざ": "かなかなか-", "じ": "かかなかな-", "ず": "かかかな-", "ぜ": "なかかかな-", "ぞ": "かかかなか-",
-    "だ": "かな-", "ぢ": "ななかなな-", "づ": "なななかな-", "で": "なかなか-", "ど": "ななかなかな-",
-    "ば": "かななな-", "び": "かななかかな-", "ぶ": "ななかな-", "べ": "な-", "ぼ": "かななななな-",
-    "ぱ": "かななな+", "ぴ": "かななかかな+", "ぷ": "ななかな+", "ぺ": "な+", "ぽ": "かななななな+",
+    "0": "ななかなかなかな",
     "a": "k", "b": "kb", "c": "kk", "d": "kbk", "e": "kbb", "f": "kkk", "g": "kkb", "h": "kbkk",
     "i": "kbkb", "j": "bkk", "k": "bkb", "l": "bbk", "m": "kkkk", "n": "bbb", "o": "kkbk", "p": "kkbb",
     "q": "kbkk", "r": "kbkb", "s": "kbbk", "t": "kbbb", "u": "bkkk", "v": "bkbb", "w": "bkbk",
-    "x": "bbkk", "y": "bbkb", "z": "bbbk",
-    "A": "k", "B": "kb", "C": "kk", "D": "kbk", "E": "kbb", "F": "kkk", "G": "kkb", "H": "kbkk",
-    "I": "kbkb", "J": "bkk", "K": "bkb", "L": "bbk", "M": "kkkk", "N": "bbb", "O": "kkbk", "P": "kkbb",
-    "Q": "kbkk", "R": "kbkb", "S": "kbbk", "T": "kbbb", "U": "bkkk", "V": "bkbb", "W": "bkbk",
-    "X": "bbkk", "Y": "bbkb", "Z": "bbbk",
+    "x": "bbkk", "y": "bbkb", "z": "bbbk","A" : "k", "B" : "n", "C" : "kb", "D" : "bk", "E" : "kb", "F" : "kkk", "G" : "kkb", "H" : "kbk",
+    "I" : "kbb", "J" : "bkk", "K" : "bkb", "L" : "bbk", "N" : "bbb", "M" : "kkkk", "?" : "kkkb",
+    "O" : "kkbk", "P" : "kkbb", "Q": "kbkk", "R" : "kbkb", "S" : "kbbk", "T" : "kbbb", "U": "bkkk",
+    "!" : "bkkb", "W" : "bkbk", "X" : "bkbb", "Y" : "bbkk", "Z" : "bbkb",
     "!": "bkkb", "?": "kkkb",
     " ": "/"
 };
@@ -34,12 +30,48 @@ const reverseMorseDict = Object.fromEntries(
 
 function convertToMorse() {
     const input = document.getElementById("inputText").value.trim();
-    const output = input.split("").map(char => morseDict[char] || char).join(" / ");
-    document.getElementById("output").textContent = output;
+    let output = [];
+
+    for (let char of input) {
+        if (char === "゛" || char === "゜") {
+            output.push(morseDict[char]);
+        } else if (char in morseDict) {
+            output.push(morseDict[char]);
+        } else if (char.length > 1 && (char[1] === "゛" || char[1] === "゜")) {
+            const baseChar = char[0];
+            const accent = char[1];
+            if (baseChar in morseDict && accent in morseDict) {
+                output.push(morseDict[baseChar] + " " + morseDict[accent]);
+            } else {
+                output.push(char);
+            }
+        } else {
+            output.push(char);
+        }
+    }
+
+    document.getElementById("output").textContent = output.join(" / ");
 }
 
 function convertToText() {
     const input = document.getElementById("inputText").value.trim();
-    const output = input.split(" / ").map(code => reverseMorseDict[code] || code).join("");
-    document.getElementById("output").textContent = output;
+    let parts = input.split(" / ");
+    let output = [];
+    let prevChar = "";
+
+    for (let part of parts) {
+        if (part in reverseMorseDict) {
+            if (part === "-" || part === "+") {
+                if (output.length > 0) {
+                    output[output.length - 1] += reverseMorseDict[part];
+                }
+            } else {
+                output.push(reverseMorseDict[part]);
+            }
+        } else {
+            output.push(part);
+        }
+    }
+
+    document.getElementById("output").textContent = output.join("");
 }
