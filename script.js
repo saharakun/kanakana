@@ -18,7 +18,7 @@ const morseDict = {
     "a" : "k", "b" : "b", "c" : "kb", "d" : "bk", "e" : "kb", "f" : "kkk", "g" : "kkb", "h" : "kbk",
     "i" : "kbb", "j" : "bkk", "k" : "bkb", "l" : "bbk", "n" : "bbb", "m" : "kkkk",
     "o" : "kkbk", "p" : "kkbb", "q": "kbkk", "r" : "kbkb", "s" : "kbbk", "t" : "kbbb", "u": "bkkk",
-    "w" : "bkbk", "x" : "bkbb", "y" : "bbkk", "z" : "bbkb"
+    "w" : "bkbk", "x" : "bkbb", "y" : "bbkk", "z" : "bbkb",
     "A" : "k", "B" : "n", "C" : "kb", "D" : "bk", "E" : "kb", "F" : "kkk", "G" : "kkb", "H" : "kbk",
     "I" : "kbb", "J" : "bkk", "K" : "bkb", "L" : "bbk", "N" : "bbb", "M" : "kkkk", "?" : "kkkb",
     "O" : "kkbk", "P" : "kkbb", "Q": "kbkk", "R" : "kbkb", "S" : "kbbk", "T" : "kbbb", "U": "bkkk",
