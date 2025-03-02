@@ -1,3 +1,4 @@
+
 const morseDict = {
     "あ": "かかなかか", "い": "なか", "う": "ななか", "え": "なかななな", "お": "なかなな",
     "か": "なかななか", "き": "かなかなな", "く": "なななかか", "け": "かなかか", "こ": "かかかか",
@@ -13,14 +14,14 @@ const morseDict = {
     "1": "なかかかか", "2": "ななかかか", "3": "かななかか", "4": "ななななか", "5": "ななななな",
     "6": "かなかなかなかな", "7": "かなかなかなかか", "8": "かなかなかかかな", "9": "かなかなななかな",
     "0": "ななかなかなかな",
-    "a": "k", "b": "kb", "c": "kk", "d": "kbk", "e": "kbb", "f": "kkk", "g": "kkb", "h": "kbkk",
-    "i": "kbkb", "j": "bkk", "k": "bkb", "l": "bbk", "m": "kkkk", "n": "bbb", "o": "kkbk", "p": "kkbb",
-    "q": "kbkk", "r": "kbkb", "s": "kbbk", "t": "kbbb", "u": "bkkk", "v": "bkbb", "w": "bkbk",
-    "x": "bbkk", "y": "bbkb", "z": "bbbk","A" : "k", "B" : "n", "C" : "kb", "D" : "bk", "E" : "kb", "F" : "kkk", "G" : "kkb", "H" : "kbk",
-    "I" : "kbb", "J" : "bkk", "K" : "bkb", "L" : "bbk", "N" : "bbb", "M" : "kkkk", "?" : "kkkb",
-    "O" : "kkbk", "P" : "kkbb", "Q": "kbkk", "R" : "kbkb", "S" : "kbbk", "T" : "kbbb", "U": "bkkk",
-    "!" : "bkkb", "W" : "bkbk", "X" : "bkbb", "Y" : "bbkk", "Z" : "bbkb",
-    "!": "bkkb", "?": "kkkb",
+    "a": "k", "b": "kn", "c": "kk", "d": "knk", "e": "knn", "f": "kkk", "g": "kkn", "h": "knkk",
+    "i": "knkn", "j": "nkk", "k": "nkn", "l": "nnk", "m": "kkkk", "n": "nnn", "o": "kknk", "p": "kknn",
+    "q": "knkk", "r": "knkn", "s": "knnk", "t": "knnn", "u": "nkkk", "v": "nknn", "w": "nknk",
+    "x": "nnkk", "y": "nnkn", "z": "nnnk","A" : "k", "B" : "n", "C" : "kn", "D" : "nk", "E" : "kn", "F" : "kkk", "G" : "kkn", "H" : "knk",
+    "I" : "knn", "J" : "nkk", "K" : "nkn", "L" : "nnk", "N" : "nnn", "M" : "kkkk", "?" : "kkkn",
+    "O" : "kknk", "P" : "kknn", "Q": "knkk", "R" : "knkn", "S" : "knnk", "T" : "knnn", "U": "nkkk",
+    "!" : "nkkn", "W" : "nknk", "X" : "nknn", "Y" : "nnkk", "Z" : "nnkn",
+    "!": "nkkn", "?": "kkkn",
     " ": "/"
 };
 
