@@ -75,3 +75,13 @@ function convertToText() {
 
     document.getElementById("output").textContent = output.join("");
 }
+        function sendToLine() {
+            const result = document.getElementById("output").textContent.trim();
+            if (result === "") {
+                alert("変換結果がありません");
+                return;
+            }
+            const encodedText = encodeURIComponent(result);
+            const lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
+            window.open(lineUrl, "_blank");
+        }
