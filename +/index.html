@@ -6,11 +6,11 @@
     <title>かなかな語</title>
 </head>
 <body>
-    <h2>かなかな語に変換</h2>
+    <h2>かなかな語へ</h2>
 
     <label for="inputText">入力テキスト:</label>
     <input type="text" id="inputText" placeholder="テキストを入力">
-    <button onclick="convertToMorse()">エンコード</button>
+    <button onclick="convertToMorse()">かなかな語へ</button>
     <button onclick="pasteText('inputText')">貼り付け</button>
 
     <h3>Encode:</h3>
@@ -22,7 +22,7 @@
 
     <hr>
 
-    <h2>日本語などに変換</h2>
+    <h2>他言語へ</h2>
     <label for="morseInput">かなかな語:</label>
     <input type="text" id="morseInput" placeholder="かなかな語を入力">
     <button onclick="convertToText()">デコード</button>
@@ -34,10 +34,10 @@
 
     <script>
         const morseBinaryMap = {
-            "0000": "kkkk", "0001": "knnn", "0010": "knkn", "0011": "knkk",
-            "0100": "kknn", "0101": "kkkn", "0110": "kkkk", "0111": "knnk",
-            "1000": "nkkk", "1001": "nknk", "1010": "nkkn", "1011": "nknn",
-            "1100": "nnkk", "1101": "nnnk", "1110": "nknk", "1111": "nnkk"
+            "0000": "-----", "0001": ".----", "0010": "..---", "0011": "...--",
+            "0100": "....-", "0101": ".....", "0110": "-....", "0111": "--...",
+            "1000": "---..", "1001": "----.", "1010": ".-", "1011": "-...",
+            "1100": "-.-.", "1101": "-..", "1110": "--.", "1111": "---"
         };
 
         const binaryMorseMap = Object.fromEntries(Object.entries(morseBinaryMap).map(([bin, morse]) => [morse, bin]));
@@ -62,18 +62,32 @@
             return binaryString.split(" ").map(bin => String.fromCharCode(parseInt(bin, 2))).join("");
         }
 
+        function convertMorseToKn(morseString) {
+            return morseString.split(" ").map(morse => 
+                morse.replace(/-/g, 'k').replace(/\./g, 'n')
+            ).join(" ");
+        }
+
+        function convertKnToMorse(knString) {
+            return knString.split(" ").map(kn =>
+                kn.replace(/k/g, '-').replace(/n/g, '.')
+            ).join(" ");
+        }
+
         function convertToMorse() {
             let text = document.getElementById("inputText").value;
 
             let binaryStr = textToUtf16Binary(text);
             let morseStr = utf16BinaryToMorse(binaryStr);
+            let knStr = convertMorseToKn(morseStr);
             
-            document.getElementById("morseOutput").value = morseStr;
+            document.getElementById("morseOutput").value = knStr;
         }
 
         function convertToText() {
-            let morseStr = document.getElementById("morseInput").value;
+            let knStr = document.getElementById("morseInput").value;
 
+            let morseStr = convertKnToMorse(knStr);
             let binaryStr = morseToUtf16Binary(morseStr);
             let textStr = utf16BinaryToText(binaryStr);
             
@@ -86,7 +100,6 @@
             let lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
             window.location.href = lineUrl;
         }
-
 
         function copyText(elementId) {
             let textArea = document.getElementById(elementId);
