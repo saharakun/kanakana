@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTF-16 ⇄ モールス信号</title>
+</head>
+<body>
+    <h2>UTF-16 ⇄ モールス信号</h2>
+
+    <label for="inputText">入力テキスト:</label>
+    <input type="text" id="inputText" placeholder="テキストを入力">
+    <button onclick="convertToMorse()">エンコード</button>
+    <button onclick="pasteText('inputText')">貼り付け</button>
+
+    <h3>Encode:</h3>
+    <textarea id="morseOutput" rows="2" cols="50" readonly></textarea>
+    <button onclick="copyText('morseOutput')">コピー</button>
+    
+    <br>
+    <button onclick="sendToLine()">LINEに送る</button>
+
+    <hr>
+
+    <h2>モールス信号 → テキスト復元</h2>
+    <label for="morseInput">モールス信号:</label>
+    <input type="text" id="morseInput" placeholder="モールス信号を入力">
+    <button onclick="convertToText()">デコード</button>
+    <button onclick="pasteText('morseInput')">貼り付け</button>
+
+    <h3>Decode:</h3>
+    <textarea id="decodedTextOutput" rows="2" cols="50" readonly></textarea>
+    <button onclick="copyText('decodedTextOutput')">コピー</button>
+
+    <script>
+        
+        const morseBinaryMap = {
+            "0000": "かか", "0001": "かな", "0010": "なな", "0011": "かk",
+            "0100": "kn", "0101": "nか", "0110": "nな", "0111": "kか",
+            "1000": "nk", "1001": "kk", "1010": "nn", "1011": "kかk",
+            "1100": "kなk", "1101": "nかn", "1110": "nなn", "1111": "kkk"
+        };
+
+        
+        const binaryMorseMap = Object.fromEntries(Object.entries(morseBinaryMap).map(([bin, morse]) => [morse, bin]));
+
+        
+        function textToUtf16Binary(text) {
+            return [...text].map(char => char.charCodeAt(0).toString(2).padStart(16, '0')).join(" ");
+        }
+
+        
+        function utf16BinaryToMorse(binaryString) {
+            return binaryString.replace(/ /g, "").match(/.{4}/g).map(chunk => morseBinaryMap[chunk] || "?").join(" ");
+        }
+
+        
+        function morseToUtf16Binary(morseString) {
+            let binaryArray = morseString.split(" ").map(morse => binaryMorseMap[morse] || "????");
+            let binaryString = binaryArray.join("");
+
+            
+            let binaryChunks = binaryString.match(/.{16}/g);
+            return binaryChunks ? binaryChunks.join(" ") : "";
+        }
+
+        
+        function utf16BinaryToText(binaryString) {
+            return binaryString.split(" ").map(bin => String.fromCharCode(parseInt(bin, 2))).join("");
+        }
+
+        
+        function convertToMorse() {
+            let text = document.getElementById("inputText").value;
+
+            let binaryStr = textToUtf16Binary(text);
+            let morseStr = utf16BinaryToMorse(binaryStr);
+            
+            document.getElementById("morseOutput").value = morseStr;
+        }
+
+        
+        function convertToText() {
+            let morseStr = document.getElementById("morseInput").value;
+
+            let binaryStr = morseToUtf16Binary(morseStr);
+            let textStr = utf16BinaryToText(binaryStr);
+            
+            document.getElementById("decodedTextOutput").value = textStr;
+        }
+
+        
+        function sendToLine() {
+            let morseText = document.getElementById("morseOutput").value;
+            let encodedText = encodeURIComponent(morseText);
+            let lineUrl = `https:
+            window.location.href = lineUrl;
+        }
+
+        
+        function copyText(elementId) {
+            let textArea = document.getElementById(elementId);
+            textArea.select();
+            document.execCommand("copy");
+            alert("コピーしました: " + textArea.value);
+        }
+
+        
+        function pasteText(elementId) {
+            navigator.clipboard.readText().then(text => {
+                document.getElementById(elementId).value = text;
+            }).catch(err => {
+                alert("貼り付けに失敗しました: " + err);
+            });
+        }
+    </script>
+</body>
+</html>
