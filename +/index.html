@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTF-16 ⇄ モールス信号</title>
+    <title>かなかな語変換ツール+</title>
 </head>
 <body>
-    <h2>UTF-16 ⇄ モールス信号</h2>
+    <h2>かなかな語に変換</h2>
 
     <label for="inputText">入力テキスト:</label>
     <input type="text" id="inputText" placeholder="テキストを入力">
-    <button onclick="convertToMorse()">エンコード</button>
+    <button onclick="convertToMorse()">変換</button>
     <button onclick="pasteText('inputText')">貼り付け</button>
 
     <h3>Encode:</h3>
@@ -22,9 +22,9 @@
 
     <hr>
 
-    <h2>モールス信号 → テキスト復元</h2>
-    <label for="morseInput">モールス信号:</label>
-    <input type="text" id="morseInput" placeholder="モールス信号を入力">
+    <h2>日本語などに変換</h2>
+    <label for="morseInput">かなかな語:</label>
+    <input type="text" id="morseInput" placeholder="かなかな語を入力">
     <button onclick="convertToText()">デコード</button>
     <button onclick="pasteText('morseInput')">貼り付け</button>
 
