@@ -33,86 +33,70 @@
     <button onclick="copyText('decodedTextOutput')">コピー</button>
 
     <script>
-        
-        const morseBinaryMap = {
-            "0000": "kkkk", "0001": "knnn", "0010": "knkn", "0011": "knkk",
-            "0100": "kknn", "0101": "kkkn", "0110": "kkkk", "0111": "knnk",
-            "1000": "nkkk", "1001": "nknk", "1010": "nkkn", "1011": "nknn",
-            "1100": "nnkk", "1101": "nnnk", "1110": "nknk", "1111": "nnkk"
-        };
+const morseBinaryMap = {
+    "0000": "kkkk", "0001": "knnn", "0010": "knkn", "0011": "knkk",
+    "0100": "kknn", "0101": "kkkn", "0110": "kkkk", "0111": "knnk",
+    "1000": "nkkk", "1001": "nknk", "1010": "nkkn", "1011": "nknn",
+    "1100": "nnkk", "1101": "nnnk", "1110": "nknk", "1111": "nnkk"
+};
 
-        
-        const binaryMorseMap = Object.fromEntries(Object.entries(morseBinaryMap).map(([bin, morse]) => [morse, bin]));
+const binaryMorseMap = Object.fromEntries(Object.entries(morseBinaryMap).map(([bin, morse]) => [morse, bin]));
 
-        
-        function textToUtf16Binary(text) {
-            return [...text].map(char => char.charCodeAt(0).toString(2).padStart(16, '0')).join(" ");
-        }
+function textToUtf16Binary(text) {
+    return [...text].map(char => char.charCodeAt(0).toString(2).padStart(16, '0')).join(" ");
+}
 
-        
-        function utf16BinaryToMorse(binaryString) {
-            return binaryString.replace(/ /g, "").match(/.{4}/g).map(chunk => morseBinaryMap[chunk] || "?").join(" ");
-        }
+function utf16BinaryToMorse(binaryString) {
+    return binaryString.replace(/ /g, "").match(/.{4}/g).map(chunk => morseBinaryMap[chunk] || "?").join(" ");
+}
 
-        
-        function morseToUtf16Binary(morseString) {
-            let binaryArray = morseString.split(" ").map(morse => binaryMorseMap[morse] || "????");
-            let binaryString = binaryArray.join("");
+function morseToUtf16Binary(morseString) {
+    let binaryArray = morseString.split(" ").map(morse => binaryMorseMap[morse] || "????");
+    let binaryString = binaryArray.join("");
 
-            
-            let binaryChunks = binaryString.match(/.{16}/g);
-            return binaryChunks ? binaryChunks.join(" ") : "";
-        }
+    let binaryChunks = binaryString.match(/.{16}/g);
+    return binaryChunks ? binaryChunks.join(" ") : "";
+}
 
-        
-        function utf16BinaryToText(binaryString) {
-            return binaryString.split(" ").map(bin => String.fromCharCode(parseInt(bin, 2))).join("");
-        }
+function utf16BinaryToText(binaryString) {
+    return binaryString.split(" ").map(bin => String.fromCharCode(parseInt(bin, 2))).join("");
+}
 
-        
-        function convertToMorse() {
-            let text = document.getElementById("inputText").value;
+function convertToMorse(text) {
+    let binaryStr = textToUtf16Binary(text);
+    let morseStr = utf16BinaryToMorse(binaryStr);
+    return morseStr;
+}
 
-            let binaryStr = textToUtf16Binary(text);
-            let morseStr = utf16BinaryToMorse(binaryStr);
-            
-            document.getElementById("morseOutput").value = morseStr;
-        }
+function convertToText(morseStr) {
+    let binaryStr = morseToUtf16Binary(morseStr);
+    let textStr = utf16BinaryToText(binaryStr);
+    return textStr;
+}
 
-        
-        function convertToText() {
-            let morseStr = document.getElementById("morseInput").value;
+function sendToLine(morseText) {
+    let encodedText = encodeURIComponent(morseText);
+    let lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
+    window.location.href = lineUrl;
+}
 
-            let binaryStr = morseToUtf16Binary(morseStr);
-            let textStr = utf16BinaryToText(binaryStr);
-            
-            document.getElementById("decodedTextOutput").value = textStr;
-        }
+function copyText(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    alert("コピーしました: " + text);
+}
 
-        
-        function sendToLine() {
-            let morseText = document.getElementById("morseOutput").value;
-            let encodedText = encodeURIComponent(morseText);
-            let lineUrl = `https:
-            window.location.href = lineUrl;
-        }
-
-        
-        function copyText(elementId) {
-            let textArea = document.getElementById(elementId);
-            textArea.select();
-            document.execCommand("copy");
-            alert("コピーしました: " + textArea.value);
-        }
-
-        
-        function pasteText(elementId) {
-            navigator.clipboard.readText().then(text => {
-                document.getElementById(elementId).value = text;
-            }).catch(err => {
-                alert("貼り付けに失敗しました: " + err);
-            });
-        }
+function pasteText() {
+    navigator.clipboard.readText().then(text => {
+        console.log("貼り付けたテキスト: " + text);
+    }).catch(err => {
+        alert("貼り付けに失敗しました: " + err);
+    });
+}
     </script>
 </body>
 </html>
