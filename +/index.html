@@ -30,6 +30,7 @@
     <h3>Decode:</h3>
     <textarea id="decodedTextOutput" rows="2" cols="50" readonly></textarea>
     <button onclick="copyText('decodedTextOutput')">コピー</button>
+    <script>
     const morseBinaryMap = {
     "0000": "-----", "0001": ".----", "0010": "..---", "0011": "...--",
     "0100": "....-", "0101": ".....", "0110": "-....", "0111": "--...",
@@ -122,5 +123,6 @@ function pasteText(elementId) {
         alert("貼り付けに失敗しました: " + err);
     });
 }
+</script>
 </body>
 </html>
